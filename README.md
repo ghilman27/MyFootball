@@ -4,8 +4,12 @@ Submission for Dicoding: Progressive Web App
 ### To do list
 - [x] Concept, flow of pages and check API data json
 - [x] Create Repo
-- [ ] Conceptual Design (Sketch)
+- [x] Conceptual Design (Sketch)
+- [x] Configure Bundling for Development
 - [ ] Create static pages
+    - [x] Create App Shell
+    - [ ] Create Parent Pages
+    - [ ] Create Detail Pages
 - [ ] Configure API data to static pages
 - [ ] Configure service worker for static assets
 - [ ] Configure cache and feeding it to the pages
