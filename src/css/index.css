@@ -41,19 +41,19 @@
 .sidenav li>a {
     padding: 0 16px!important;
 }
-.collapsible-header {
+nav .collapsible-header {
     justify-content: space-between;
     font-weight: 500;
     color: rgba(0,0,0,0.54);
     height: 48px!important;
 }
-.dropdown-content {
+nav .dropdown-content {
     min-width: 150px!important;
     max-height: 350px!important;
     overflow-y: auto!important;
     backface-visibility: hidden!important;
 }
-.dropdown-content li>a, .dropdown-content li>span {
+nav .dropdown-content li>a, nav .dropdown-content li>span {
     color: rgba(0,0,0,0.87)!important;
     font-size: 1rem!important;
 }
@@ -68,6 +68,16 @@
     background-color: #e0e0e0;
 }
 
+#profile-button.active {
+    background-color: #e0e0e0;
+}
+
 #body-content {
-    padding: 12px 14px;
+    margin: 0 auto;
+    margin-top: 12px;
+}
+
+/* styling custom element */
+matches-list, league-selector, standing-table, team-list, detail-page {
+    display: block;
 }

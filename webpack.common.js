@@ -3,10 +3,13 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
 
 module.exports = {
-    entry: "./src/index.js",
+    entry: {
+        index: "./src/index.js",
+        worker: "./src/worker.js",
+    },
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: "index.js"
+        filename: "[name].js"
     },
     module: {
         rules: [
@@ -35,8 +38,9 @@ module.exports = {
         new CopyWebpackPlugin ({
             patterns: [
                 {from: "./src/images", to: "images"},
-                {from: "./src/pages", to: "pages"}
+                {from: "./src/pages", to: "pages"},
+                // {from: "./src/manifest.json", to: "./manifest.json"},
             ]
-        })
+        }),
     ]
 }

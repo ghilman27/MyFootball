@@ -1,0 +1,11 @@
+standing-table .team-logo {
+    display: inline-block; 
+    height: 20px; 
+    width: 20px; 
+    margin-right: 10px;
+}
+
+standing-table .detail-link {
+    color: rgba(0,0,0,0.87);
+    cursor: pointer;
+}

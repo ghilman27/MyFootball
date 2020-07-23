@@ -1,0 +1,105 @@
+detail-page .tabs-info {
+    padding-top: 1rem!important;
+    display: block;
+}
+
+detail-page .shirt-info {
+    position: relative;
+    width: 50px;
+}
+
+detail-page .shirt-img {
+    display: inline-block; 
+    height: 50px; width: 50px; 
+    margin-right: 10px
+}
+
+detail-page .shirt-number {
+    position: absolute; 
+    top: 25%; 
+    width: 50px; 
+    text-align: center; font-size: 1rem; color: #000
+}
+
+detail-page .player-name {
+    font-weight: 500;
+}
+
+detail-page .player-desc {
+    font-size: 0.75rem; font-style: italic; color: rgba(0,0,0,0.7)
+}
+
+
+detail-page .role {
+    text-transform: lowercase!important;
+}
+
+detail-page .role:first-line {
+    text-transform: capitalize!important;
+}
+
+detail-page .match-time {
+    display: inline-block;
+    margin: 0 auto; 
+    padding: 0.25rem;
+    background-color: #e0e0e0;
+    color: rgba(0,0,0,0.54);
+    font-weight: 500;
+    border-radius: 2px; 
+}
+
+detail-page .match-score {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-color: #ffd230;
+    color: rgba(0,0,0,0.54);
+    font-weight: bold;
+    border-radius: 2px; 
+}
+
+detail-page .win {
+    background-color: #28a745!important;
+    color: white!important;
+}
+
+detail-page .lose {
+    background-color: #ca2027!important;
+    color: white!important;
+}
+
+detail-page .ongoing {
+    background-color: #008bdf!important;
+    color: white!important;
+}
+
+detail-page .match-info {
+    padding: 1.5rem 0 0.75rem 0 !important; font-size: 0.8rem;
+}
+
+detail-page .match-date, detail-page .match-comp-name {
+    background-color: #f2f2f2; 
+    border-radius: 2px; 
+    display: inline-block;
+    padding: 3px;
+}
+
+detail-page .match-status, detail-page .current-team {
+    font-weight: 600;
+}
+
+detail-page .match-result {
+    padding: 0 0 1.5rem 0 !important; border-bottom: 0.5px solid rgba(0,0,0,0.2);
+}
+
+detail-page .btn {
+    padding: 0 0.75rem;
+}
+
+detail-page .team-name {
+    padding: 0!important;
+}
+
+detail-page .padding-0 {
+    padding: 0!important;
+}

@@ -1,0 +1,37 @@
+<div id="page-content" class="row">
+    <div class="col s12" style="overflow-x:auto;">
+        <table class="highlight">
+            <thead>
+                <tr>
+                    <th>Club</th>
+                    <th>MP</th>
+                    <th>W</th>
+                    <th>D</th>
+                    <th>L</th>
+                    <th>GF</th>
+                    <th>GA</th>
+                    <th>GD</th>
+                    <th>Pts</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this}}
+                <tr class="detail-link" data-href="#detail?teamId={{team.id}}">
+                    <td class="valign-wrapper">
+                        <img src="{{team.crestUrl}}" alt="team-logo" class="team-logo" onerror="this.src='./images/no-image-holder.png';">
+                        {{team.name}}
+                    </td>
+                    <td>{{playedGames}}</td>
+                    <td>{{won}}</td>
+                    <td>{{draw}}</td>
+                    <td>{{lost}}</td>
+                    <td>{{goalsFor}}</td>
+                    <td>{{goalsAgainst}}</td>
+                    <td>{{goalDifference}}</td>
+                    <td>{{points}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>

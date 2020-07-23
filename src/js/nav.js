@@ -1,89 +1,108 @@
-document.addEventListener('DOMContentLoaded', () => {
-	// Activate sidebar nav
-	const sidenavs = document.querySelectorAll('.sidenav');
-	M.Sidenav.init(sidenavs);
-	loadNav();
+import API from './api.js'
 
-	function loadNav() {
-		const xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function () {
-			if (this.readyState === 4) {
-				if (this.status !== 200) return;
+// load navigation.html
+const loadNav = () => {
+	const xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function () {
+		if (this.readyState === 4) {
+			if (this.status !== 200) return;
 
-				// Muat daftar tautan menu
-				document.querySelectorAll('.topnav, .sidenav').forEach((elm) => {
-					elm.innerHTML = xhttp.responseText;
+			// Muat daftar tautan menu
+			document.querySelectorAll('.topnav, .sidenav').forEach((elm) => {
+				elm.innerHTML = xhttp.responseText;
+			});
+
+			// remove unused elements (hidden elements) on both side
+			document.querySelectorAll('.topnav .hide-on-large-only, .sidenav .hide-on-med-and-down').forEach((elm) => {
+				elm.remove();
+			})
+
+			const dropdowns = document.querySelectorAll('.dropdown-trigger');
+			M.Dropdown.init(dropdowns, {
+				coverTrigger: false,
+				constrainWidth: true,
+				alignment: 'right',
+			})
+
+			var collapsibles = document.querySelectorAll('.collapsible');
+			M.Collapsible.init(collapsibles);
+
+
+			// Daftarkan event listener untuk setiap tautan menu
+			document
+				.querySelectorAll('.sidenav a, .topnav a')
+				.forEach((elm) => {
+					if (!elm.classList.contains('dropdown-trigger')) {
+						elm.addEventListener('click', (event) => {
+							// Tutup sidenav
+							const sidenav = document.querySelector('.sidenav');
+							M.Sidenav.getInstance(sidenav).close();
+
+							// Muat konten halaman yang dipanggil
+							console.log(event.target.getAttribute('href'))
+							const page = event.target.getAttribute('href').substr(1);
+							loadPage(page);
+						});
+					}
 				});
+		}
+	};
+	xhttp.open('GET', './pages/nav.html', true);
+	xhttp.send();
+}
 
-				// remove unused elements (hidden elements) on both side
-				document.querySelectorAll('.topnav .hide-on-large-only, .sidenav .hide-on-med-and-down').forEach((elm) => {
-					elm.remove();
-				})
-
-				dropdowns = document.querySelectorAll('.dropdown-trigger');
-				M.Dropdown.init(dropdowns, {
-					coverTrigger: false,
-					constrainWidth: true,
-					alignment: 'right',
-				})
-
-				var collapsibles = document.querySelectorAll('.collapsible');
-				M.Collapsible.init(collapsibles);
-
-
-				// Daftarkan event listener untuk setiap tautan menu
-				document
-					.querySelectorAll('.sidenav a, .topnav a')
-					.forEach((elm) => {
-						if (!elm.classList.contains('dropdown-trigger')) {
-							elm.addEventListener('click', (event) => {
-								// Tutup sidenav
-								const sidenav = document.querySelector('.sidenav');
-								M.Sidenav.getInstance(sidenav).close();
-	
-								// Muat konten halaman yang dipanggil
-								page = event.target.getAttribute('href').substr(1);
-								loadPage(page);
-							});
-						}
-					});
+// load selected page html
+const loadPage = (page, navSection) => {
+	const xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function () {
+		if (this.readyState === 4) {
+			const content = document.querySelector('#body-content');
+			if (this.status === 200) {
+				content.innerHTML = xhttp.responseText;
+				navSection ? highlightNav(navSection) : highlightNav(page);
+				getPage(page);
+			} else if (this.status === 404) {
+				content.innerHTML = '<p>Halaman tidak ditemukan.</p>';
+			} else {
+				content.innerHTML = '<p>Ups.. halaman tidak dapat diakses.</p>';
 			}
-		};
-		xhttp.open('GET', './pages/nav.html', true);
-		xhttp.send();
-	}
+		}
+	};
+	xhttp.open('GET', `pages/${page}.html`, true);
+	xhttp.send();
+}
 
-	// Load page content
-	let page = window.location.hash.substr(1);
-	if (page === '') page = 'home';
-	loadPage(page);
+// Highlight selected section on navbar button
+const highlightNav = (navSection) => {
+	const navButtons = document.querySelectorAll('.nav-button');
+	navButtons.forEach((button) => {
+		navSection === button.getAttribute('href').substr(1)
+			? button.classList.add('active')
+			: button.classList.remove('active');
+	});
+}
 
-	function loadPage(page) {
-		const xhttp = new XMLHttpRequest();
-		xhttp.onreadystatechange = function () {
-			if (this.readyState === 4) {
-				const content = document.querySelector('#body-content');
-				if (this.status === 200) {
-					content.innerHTML = xhttp.responseText;
-					highlightCurrentPage(page);
-				} else if (this.status === 404) {
-					content.innerHTML = '<p>Halaman tidak ditemukan.</p>';
-				} else {
-					content.innerHTML = '<p>Ups.. halaman tidak dapat diakses.</p>';
-				}
-			}
-		};
-		xhttp.open('GET', `pages/${page}.html`, true);
-		xhttp.send();
+// Get data and render selected page
+const getPage = (page) => {
+	switch(page) {
+		case 'matches':
+			API.getMatches();
+			break;
+		case 'standings':
+			API.getStandings();
+			break;
+		case 'teams':
+			API.getTeamsList();
+			break;
+		case 'profile':
+			API.getTeamsList();
+			break;
+		case 'detail':
+			API.getDetails();
+			break;
+		default:
+			console.log(`This component hasn't implemented api.js`)
 	}
+}
 
-	// Highlight current page on navbar button
-	function highlightCurrentPage(page) {
-		navButtons = document.querySelectorAll('.nav-button');
-		navButtons.forEach((button) => {
-			page === button.getAttribute('href').substr(1)
-				? button.classList.add('active')
-				: button.classList.remove('active');
-		});
-	}
-});
+export { loadNav, loadPage }
