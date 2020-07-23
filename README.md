@@ -17,7 +17,7 @@ Submission for Dicoding: Progressive Web App
     - [x] TeamList
     - [x] Profile (from test data)
     - [x] DetailPage
-- [ ] Configure service worker for static assets
+- [x] Configure service worker for static assets
 - [ ] Configure DB and save pages
 - [ ] Configure feeding data from DB to the saved pages
 - [ ] Configure push notification

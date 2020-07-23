@@ -1,7 +1,7 @@
 import "regenerator-runtime";
 import { API_BASE_URL } from './js/appconst.js';
 
-const CACHE_NAME = 'MyFootball_build_v1.0';
+const CACHE_NAME = 'MyFootball_build_v1.1';
 var urlsToCache = [
 	'/',
 	'/index.html',
@@ -27,9 +27,8 @@ var urlsToCache = [
 	'https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2',
 ];
 
-// install all assets to cache
 self.addEventListener('install', function (event) {
-	console.log('install event fires!')
+	// console.log(`install event fires!:`)
 	event.waitUntil(
 		caches.open(CACHE_NAME).then(function (cache) {
 			return cache.addAll(urlsToCache);
@@ -37,10 +36,9 @@ self.addEventListener('install', function (event) {
 	);
 });
 
-// if request contain base_url -> make an API request and then save it to cache, return it to the DOM too
-// if not, then check if that resource already in the cache, return whatever that is not null (available in cache, or fetch resource)
 self.addEventListener('fetch', (event) => {
-	console.log('fetch event fires!')
+	// console.log(`fetch event fires! ${event.request.url}`)
+	// const API_BASE_URL = "http://api.football-data.org/v2";
 	if (event.request.url.indexOf(API_BASE_URL) > -1) {
 		event.respondWith(
 			caches.open(CACHE_NAME).then(async (cache) => {
@@ -58,9 +56,8 @@ self.addEventListener('fetch', (event) => {
 	}
 });
 
-// event after installation, for upgrading cache to the new version if change in name detected
 self.addEventListener('activate', function (event) {
-	console.log('active event fires!');
+	// console.log('active event fires!');
 	event.waitUntil(
 		caches.keys().then(function (cacheNames) {
 			return Promise.all(
@@ -72,5 +69,6 @@ self.addEventListener('activate', function (event) {
 				})
 			);
 		})
+		.then(() => self.clients.claim())
 	);
 });
