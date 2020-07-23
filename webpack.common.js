@@ -39,7 +39,7 @@ module.exports = {
             patterns: [
                 {from: "./src/images", to: "images"},
                 {from: "./src/pages", to: "pages"},
-                // {from: "./src/manifest.json", to: "./manifest.json"},
+                {from: "./src/manifest.json", to: "./manifest.json"},
             ]
         }),
     ]

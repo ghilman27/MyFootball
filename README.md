@@ -20,8 +20,8 @@ Submission for Dicoding: Progressive Web App
 - [x] Configure service worker for static assets
 - [x] Configure DB and save pages
 - [x] Configure feeding data from DB to the saved pages
-- [ ] Configure push notification
-- [ ] Configure add to home screen and splash screen
+- [x] Configure push notification
+- [x] Configure add to home screen and splash screen
 - [ ] Additional Features (optional)
     - [ ] Design Profile to look like an actual Profile with saved teams
     - [ ] Make nav as handlebars so it can display favorite pages

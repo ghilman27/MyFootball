@@ -1,4 +1,4 @@
-import "regenerator-runtime";
+import 'regenerator-runtime';
 import { API_BASE_URL } from './js/appconst.js';
 
 const CACHE_NAME = 'MyFootball_build_v1.1';
@@ -6,8 +6,9 @@ var urlsToCache = [
 	'/',
 	'/index.html',
 	'/index.js',
-	// '/icon512.png',
-	// '/icon192.png',
+	'/images/icon512.png',
+	'/images/icon192.png',
+	'/images/favicon.ico',
 	// '/manifest.json',
 
 	'/pages/detail.html',
@@ -28,7 +29,6 @@ var urlsToCache = [
 ];
 
 self.addEventListener('install', function (event) {
-	// console.log(`install event fires!:`)
 	event.waitUntil(
 		caches.open(CACHE_NAME).then(function (cache) {
 			return cache.addAll(urlsToCache);
@@ -37,8 +37,6 @@ self.addEventListener('install', function (event) {
 });
 
 self.addEventListener('fetch', (event) => {
-	// console.log(`fetch event fires! ${event.request.url}`)
-	// const API_BASE_URL = "http://api.football-data.org/v2";
 	if (event.request.url.indexOf(API_BASE_URL) > -1) {
 		event.respondWith(
 			caches.open(CACHE_NAME).then(async (cache) => {
@@ -49,26 +47,50 @@ self.addEventListener('fetch', (event) => {
 		);
 	} else {
 		event.respondWith(
-			caches.match(event.request, { ignoreSearch: true }).then(function(response) {
-				return response || fetch (event.request);
-			})
-		)
+			caches.match(event.request, { ignoreSearch: true })
+				.then(function (response) {
+					return response || fetch(event.request);
+				})
+		);
 	}
 });
 
 self.addEventListener('activate', function (event) {
-	// console.log('active event fires!');
 	event.waitUntil(
-		caches.keys().then(function (cacheNames) {
-			return Promise.all(
-				cacheNames.map(function (cacheName) {
-					if (cacheName != CACHE_NAME) {
-						console.log('ServiceWorker: cache ' + cacheName + ' dihapus');
-						return caches.delete(cacheName);
-					}
-				})
-			);
-		})
-		.then(() => self.clients.claim())
+		caches
+			.keys()
+			.then(function (cacheNames) {
+				return Promise.all(
+					cacheNames.map(function (cacheName) {
+						if (cacheName != CACHE_NAME) {
+							console.log('ServiceWorker: cache ' + cacheName + ' dihapus');
+							return caches.delete(cacheName);
+						}
+					})
+				);
+			})
+			.then(() => self.clients.claim())
+	);
+});
+
+self.addEventListener('push', function (event) {
+	let body;
+	if (event.data) {
+		body = event.data.text();
+	} else {
+		body = 'Push message no payload';
+	}
+	const options = {
+		body: body,
+		icon: 'images/icon192.png',
+		badge: 'images/icon192.png',
+		vibrate: [100, 50, 100],
+		data: {
+			dateOfArrival: Date.now(),
+			primaryKey: 1,
+		},
+	};
+	event.waitUntil(
+		self.registration.showNotification('Push Notification', options)
 	);
 });
