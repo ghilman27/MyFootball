@@ -18,7 +18,13 @@ Submission for Dicoding: Progressive Web App
     - [x] Profile (from test data)
     - [x] DetailPage
 - [x] Configure service worker for static assets
-- [ ] Configure DB and save pages
-- [ ] Configure feeding data from DB to the saved pages
+- [x] Configure DB and save pages
+- [x] Configure feeding data from DB to the saved pages
 - [ ] Configure push notification
+- [ ] Configure add to home screen and splash screen
 - [ ] Additional Features (optional)
+    - [ ] Design Profile to look like an actual Profile with saved teams
+    - [ ] Make nav as handlebars so it can display favorite pages
+    - [ ] Tidying up index.html so it's semantically correct
+    - [ ] Make toast and modals to notify state (offline, online, add team to favorites, logout)
+    - [ ] Change design so it will be different from template haha

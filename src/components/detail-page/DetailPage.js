@@ -1,7 +1,7 @@
 import generateTemplate from './DetailPage.module.html';
 import generateLoading from '../loading.module.html';
 import generateStyleSheet from './DetailPage.module.css';
-import { dateFormatter, timeFormatter } from '../../js/helper.js';
+import DB from '../../js/db.js'
 
 const today = new Date();
 
@@ -11,40 +11,11 @@ class DetailPage extends HTMLElement {
     }
 
     connectedCallback() {
-        // this.reqData().then((data) => this.render(data));
         this.innerHTML = generateLoading();
     }
 
-    // async reqData() {
-    //     const url = new URL(`${window.location.origin}/${window.location.hash.substr(1)}`)
-    //     const teamId = url.searchParams.get('teamId');
-
-    //     const urlTeam = `https://api.football-data.org/v2/teams/${teamId}`;
-    //     const urlMatches = `https://api.football-data.org/v2/teams/${teamId}/matches?${dateFormatter(today, 'detailPageAPI')}`;
-    //     const options = {
-    //         headers: {"X-Auth-Token": "330e8f2f61804a439958e9cccbf1f0e8"}
-    //     }
-    //     const responseTeam = await fetch(urlTeam, options);
-    //     const responseMatches = await fetch(urlMatches, options);
-    //     const team = await responseTeam.json();
-    //     const { matches } = (await responseMatches.json());
-    //     matches.forEach((match) => {
-    //         match.isFinished = match.status === 'FINISHED' ? true : false
-    //         match.isOnGoing  = match.status === 'IN_PLAY' || match.status ==='PAUSED' ? true : false
-    //         match.isUpcoming = match.status === 'SCHEDULED' ? true : false
-    //         match.time = timeFormatter(new Date(match.utcDate))
-    //         match.date = dateFormatter(new Date(match.utcDate))
-    //         match.isHome = match.homeTeam.id == teamId ? true : false
-    //         match.isAway = match.awayTeam.id == teamId ? true : false
-    //         match.isWin = (match.isHome && match.score.winner === "HOME_TEAM") || (match.isAway && match.score.winner === "AWAY_TEAM");
-    //         match.isLose = (match.isHome && match.score.winner === "AWAY_TEAM") || (match.isAway && match.score.winner === "HOME_TEAM");
-    //         match.isDraw = match.score.winner === "DRAW"
-    //     })
-
-    //     return {...team, matches}
-    // }
-
     render (data) {
+        console.log('DetailPage rendered!')
         this.innerHTML = '';
         const stylesheet = document.createElement("style");
         stylesheet.innerHTML = generateStyleSheet();
@@ -68,6 +39,29 @@ class DetailPage extends HTMLElement {
         }
         window.addEventListener('resize', resize)
         fixBugs()
+
+        const favButton = document.querySelector('#favorite-button');
+        const notSavedIcon = `<i class="material-icons">favorite_border</i>`;
+        const savedIcon = `<i class="material-icons pink-text text-lighten-1">favorite</i>`;
+
+        DB.getFavouriteTeam(data.id).then((isSaved) => {
+            isSaved 
+            ? favButton.innerHTML = savedIcon
+            : favButton.innerHTML = notSavedIcon;
+        })
+
+        favButton.addEventListener('click', () => {
+            DB.getFavouriteTeam(data.id).then((isSaved) => {
+                if (isSaved) {
+                    DB.removeFavouriteTeam(data.id);
+                    favButton.innerHTML = notSavedIcon;
+                } else {
+                    DB.saveFavouriteTeam(data)
+                    favButton.innerHTML = savedIcon;
+                }
+            })
+
+        })
     }
 }
 

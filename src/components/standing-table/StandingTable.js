@@ -23,15 +23,10 @@ class StandingTable extends HTMLElement {
         document.querySelectorAll('.detail-link').forEach((link) => {
             link.addEventListener('click', () => {
                 window.location.href = link.dataset.href;
-                this.loadTeamDetail();
+                loadPage('detail');
             })
         })
     }
-
-    loadTeamDetail() {
-        loadPage('detail', 'teams');
-    }
-
 }
 
 customElements.define("standing-table", StandingTable);

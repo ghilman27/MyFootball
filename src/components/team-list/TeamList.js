@@ -2,6 +2,7 @@ import generateTemplate from './TeamList.module.html';
 import generateLoading from '../loading.module.html';
 import generateStyleSheet from './TeamList.module.css';
 import { loadPage } from '../../js/nav.js';
+import DB from '../../js/db.js';
 
 class TeamList extends HTMLElement {
     constructor() {
@@ -18,18 +19,17 @@ class TeamList extends HTMLElement {
         stylesheet.innerHTML = generateStyleSheet();
         this.appendChild(stylesheet);
 
+        const favTeams = DB.getAllFavouriteTeams();
+        data.forEach((team) => {
+            team.isSaved = (team.id === favTeams.id)
+        })
         this.innerHTML += generateTemplate(data);
         document.querySelectorAll('.detail-link').forEach((link) => {
             link.addEventListener('click', () => {
-                this.loadTeamDetail();
+                loadPage('detail');
             })
         })
     }
-
-    loadTeamDetail() {
-        loadPage('detail', 'teams');
-    }
-
 }
 
 customElements.define("team-list", TeamList);

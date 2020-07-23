@@ -2,10 +2,14 @@ import "regenerator-runtime";
 import "./css/materialize.min.css";
 import "./css/index.css";
 import "./js/materialize.min.js";
+import DB from './js/db.js';
 import './components';
-
 import { loadNav, loadPage } from './js/nav.js'
+
 document.addEventListener('DOMContentLoaded', () => {
+	// Initiate DB
+	DB.openDB();
+
 	// Activate sidebar nav
 	const sidenavs = document.querySelectorAll('.sidenav');
     M.Sidenav.init(sidenavs);

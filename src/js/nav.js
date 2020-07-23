@@ -39,7 +39,6 @@ const loadNav = () => {
 							M.Sidenav.getInstance(sidenav).close();
 
 							// Muat konten halaman yang dipanggil
-							console.log(event.target.getAttribute('href'))
 							const page = event.target.getAttribute('href').substr(1);
 							loadPage(page);
 						});
@@ -52,14 +51,14 @@ const loadNav = () => {
 }
 
 // load selected page html
-const loadPage = (page, navSection) => {
+const loadPage = (page) => {
 	const xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function () {
 		if (this.readyState === 4) {
 			const content = document.querySelector('#body-content');
 			if (this.status === 200) {
 				content.innerHTML = xhttp.responseText;
-				navSection ? highlightNav(navSection) : highlightNav(page);
+				highlightNav();
 				getPage(page);
 			} else if (this.status === 404) {
 				content.innerHTML = '<p>Halaman tidak ditemukan.</p>';
@@ -73,7 +72,11 @@ const loadPage = (page, navSection) => {
 }
 
 // Highlight selected section on navbar button
-const highlightNav = (navSection) => {
+const highlightNav = () => {
+	let navSection = window.location.hash.substr(1).split('?')[0];
+	console.log(navSection)
+	navSection = navSection === 'detail' ? 'teams' : navSection;
+
 	const navButtons = document.querySelectorAll('.nav-button');
 	navButtons.forEach((button) => {
 		navSection === button.getAttribute('href').substr(1)
