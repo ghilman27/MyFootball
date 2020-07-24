@@ -5,18 +5,18 @@ const vapidKeys = {
    "privateKey": "Xa-5M0HrcbLHZQx7WytcIjhBQQWw7ljI-xyIsyV6YMk"
 };
  
-console.log('blok1')
 webPush.setVapidDetails(
    'mailto:example@yourdomain.org',
    vapidKeys.publicKey,
    vapidKeys.privateKey
 )
 
+// change this everytime you load the web
 const pushSubscription = {
-   "endpoint": "https://fcm.googleapis.com/fcm/send/fFmO8EvHe5E:APA91bEwK0eLk55FoKPVm_5GYj8imt_T0Ie6aCz8rpdtrrzK7IFDaeWpjvF8KcQdFifauB0Anss5RvOjAuoR6FQ4HEI1asIea7SKIM4gqP3KXX56i4AUV3mwaIOh1cxaXkNYoSvNAoHk",
+   "endpoint": "https://fcm.googleapis.com/fcm/send/f1DN5jpDjAY:APA91bEMyznaHMMzTECQuN3jcG92hmMqBdK-jLqlmvrqeb_4GqiHgN4i8vf1UyKHBdWjbcEPiWYD2O9ptYwfXJAi7yLvbKuCgYid29s5Y2dQwHn1BxYddTDfo9ZwjEB5E_wW9IDCrmOX",
    "keys": {
-       "p256dh": "BL/WXfYlDDiLshaZNaa3OlQk2QT8wv1Pl7OOH/U9FNBQz09G4ZblVGZ4umLVhmW+P52oFGMQAOfeaFMkxCgRuHI=",
-       "auth": "arxwIAec+0PmqACwx4TOOQ=="
+       "p256dh": "BJ3yd14pp9wgXcN314hOxC3Tr4YGlpBoIB+KpjbGEYTvkPCv/fMR7fQ15Hs2D5k2Bl+nI5W1xC6BzAzfD9nccIs=",
+       "auth": "xx/Pq9vAUs9UWSA8JeroNQ=="
    }
 };
 const payload = 'Thanks for accepting notifications. Stay tuned for your favorite clubs!';

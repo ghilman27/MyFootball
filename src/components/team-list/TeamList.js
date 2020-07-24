@@ -14,16 +14,14 @@ class TeamList extends HTMLElement {
     }
 
     render(data) {
+        // generate stylesheet and html template
         this.innerHTML = '';
         const stylesheet = document.createElement("style");
         stylesheet.innerHTML = generateStyleSheet();
         this.appendChild(stylesheet);
-
-        const favTeams = DB.getAllFavouriteTeams();
-        data.forEach((team) => {
-            team.isSaved = (team.id === favTeams.id)
-        })
         this.innerHTML += generateTemplate(data);
+
+        // set each detail button to render team detail
         document.querySelectorAll('.detail-link').forEach((link) => {
             link.addEventListener('click', () => {
                 loadPage('detail');

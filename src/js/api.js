@@ -1,8 +1,12 @@
+/* 
+   JAVASCRIPT FILE DEDICATED TO HANDLE DATA REQUEST FOR RENDERING COMPONENTS
+   CONTAINS API CLASS THAT CAN BE IMPORTED ANYWHERE TO HANDLE DATA REQUEST
+*/
+
 import { API_HEADERS, API_BASE_URL, LEAGUE_ID_LIST } from './appconst.js';
 import { dateFormatter, timeFormatter } from './helper.js';
 import DB from './db.js';
 
-/* A CLASS THAT HANDLE DATA REQUEST FOR RENDERING COMPONENTS */
 class API {
 
     /* FUNCTION TO HANDLE CACHE REQUEST */
@@ -13,10 +17,10 @@ class API {
                     if (response) {
                         response.json().then((data) => {
                             resolve(data)
-                            console.log('Data is loaded from cache')
+                            // console.log('Data is loaded from cache')
                         });
                     } else {
-                        console.log('No caches found');
+                        // console.log('No caches found');
                     }
                 });
             } else {
@@ -25,19 +29,21 @@ class API {
         })
     }
 
-    /* FUNCTION TO HANDLE API REQUEST (NEED ACTIVE INTERNET) */
+
+    /* FUNCTION TO HANDLE API REQUEST TO THE INTERNET */
     static async getFromAPI (url) {
         try {
             const response = await fetch(url, API_HEADERS);
             const data = await response.json();
-            console.log('Data is loaded from API');
+            // console.log('Data is loaded from API');
             return data
         } catch (error) {
             console.log(error);
         }
     }
 
-    /* FUNCTION TO HANDLE DATA AND RENDERING FOR MatchesList COMPONENT */
+
+    /* FUNCTION TO HANDLE DATA TO RENDER MatchesList COMPONENT in matches.html*/
 	static getMatches() {
         const url = `${API_BASE_URL}/matches/?competitions=${Object.keys(LEAGUE_ID_LIST).join()}&${dateFormatter(new Date(), 'matchesListAPI')}`;
         const renderMatches = (data) => {
@@ -49,7 +55,8 @@ class API {
         API.getFromAPI(url).then(renderMatches);
     }
 
-    /* FUNCTION TO HANDLE DATA AND RENDERING FOR StandingTable COMPONENT */
+
+    /* FUNCTION TO HANDLE DATA TO RENDER StandingTable COMPONENT in standings.html*/
     static getStandings() {
         const standingTable = document.querySelector('standing-table');
         const renderStandingTable = (data) => {
@@ -60,10 +67,14 @@ class API {
         API.activateLeagueSelector('standings', standingTable, renderStandingTable);
     }
 
-    /* FUNCTION TO HANDLE DATA AND RENDERING FOR TeamList COMPONENT */
+
+    /* FUNCTION TO HANDLE DATA TO RENDER TeamList COMPONENT in teams.html and profile.html*/
     static getTeamsList() {
         const teamList = document.querySelector('team-list');
+
+        // get the name of the page which render this components
         const page = window.location.hash.substr(1);
+
         const renderTeamList = (data) => {
             const { teams } = data;
             teamList.render(teams);
@@ -81,7 +92,8 @@ class API {
         }
     }
 
-    /* FUNCTION TO HANDLE DATA AND RENDERING FOR DetailPage COMPONENT*/
+
+    /* FUNCTION TO HANDLE DATA TO RENDER DetailPage COMPONENT in detail.html*/
     static getDetails() {    
         // set all constant needed
         let team;
@@ -91,12 +103,13 @@ class API {
         const urlTeam = `${API_BASE_URL}/teams/${teamId}`;
         const urlMatches = `${API_BASE_URL}/teams/${teamId}/matches?${dateFormatter(new Date(), 'detailPageAPI')}`;
         
-        // load from DB if it's a favorite team (to prevent cache expiration as well)
+        // load then render from DB if it's a favorite team (to prevent cache expiration if offline as well)
         DB.getFavouriteTeam(teamId)
             .then((data) => {
                 if (data) detailPage.render(data)
             });
 
+        // load also from cache and internet asynchronously then render
         API.getFromCache(urlTeam)
             .then((teamData) => {
                 team = teamData;
@@ -120,7 +133,11 @@ class API {
             });
     }
 
-    /* HELPER FUNCTION TO ACTIVATE LeagueSelector SO IT CAN RENDER THE ASSOCIATE COMPONENT*/
+    /* HELPER FUNCTION TO ACTIVATE LeagueSelector
+       resourceName: resource that needed from API (matches or teams)
+       component: component to be render by selecting league on LeagueSelector
+       renderOnSelect: handler to render the component when league is selected
+    */
     static activateLeagueSelector (resourceName, component, renderOnSelect) {
         const leagueSelector = document.querySelector('league-selector select');
 

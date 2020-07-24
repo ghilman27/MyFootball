@@ -5,13 +5,6 @@ import {LEAGUE_ID_LIST} from '../../js/appconst.js';
 class LeagueSelector extends HTMLElement {
     constructor() {
         super();
-        this._selectedEvent = null;
-    }
-
-    set selectedEvent(event) {
-        this._selectedEvent = event;
-        const test = this.querySelector(`#countryPicker`);
-        test.addEventListener('change', this._selectedEvent);
     }
 
     connectedCallback() {

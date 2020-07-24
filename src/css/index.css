@@ -81,3 +81,15 @@ nav .dropdown-content li>a, nav .dropdown-content li>span {
 matches-list, league-selector, standing-table, team-list, detail-page {
     display: block;
 }
+
+.profile-page-photo {
+    width: 72px!important; 
+    height: 72px!important; 
+    border-radius: 50%!important; 
+    position: absolute!important; 
+    top: 0!important; 
+    bottom: 0!important;
+    left: 0!important;
+    right: 0!important;
+    margin: auto auto!important;
+}

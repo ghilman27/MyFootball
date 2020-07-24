@@ -1,15 +1,12 @@
 import 'regenerator-runtime';
 import { API_BASE_URL } from './js/appconst.js';
 
-const CACHE_NAME = 'MyFootball_build_v1.1';
+const CACHE_NAME = 'MyFootball_build_v1.0';
 var urlsToCache = [
 	'/',
 	'/index.html',
 	'/index.js',
-	'/images/icon512.png',
-	'/images/icon192.png',
-	'/images/favicon.ico',
-	// '/manifest.json',
+	'/manifest.json',
 
 	'/pages/detail.html',
 	'/pages/matches.html',
@@ -19,7 +16,11 @@ var urlsToCache = [
 	'/pages/teams.html',
 
 	'/images/account-background.jpg',
+	'/images/account-background-dark.jpg',
 	'/images/app-logo.webp',
+	'/images/favicon.ico',
+	'/images/icon192.png',
+	'/images/icon512.png',
 	'/images/no-image-holder.png',
 	'/images/profile-holder.webp',
 	'/images/shirt.svg',

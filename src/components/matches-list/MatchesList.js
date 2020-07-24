@@ -12,6 +12,7 @@ class MatchesList extends HTMLElement {
     }
 
     connectedCallback() {
+        // render loading when first connected to the dom
         this.renderLoading();
     }
 
@@ -20,10 +21,13 @@ class MatchesList extends HTMLElement {
     }
 
     render (data) {
+        // generate stylesheet
         this.innerHTML = '';
         const stylesheet = document.createElement("style");
         stylesheet.innerHTML = generateStyleSheet();
         this.appendChild(stylesheet)
+
+        // generate template
         this.innerHTML += generateTemplate({data});
 
         // tabs initialization
@@ -66,7 +70,6 @@ class MatchesList extends HTMLElement {
         // clamp the team name to only 2 lines
         document.querySelectorAll('.team-name').forEach((elm) => $clamp(elm, {clamp: 2}))
 
-
         // fix swipeable collapsible tabs bug, unable to set width higher than 400px
         // reference: https://github.com/Dogfalo/materialize/issues/4159#issuecomment-283793244
         // Here I set the height to 3 window height, to contain more matches
@@ -77,7 +80,6 @@ class MatchesList extends HTMLElement {
             clearTimeout(window.resizeId)
             window.resizeId = setTimeout(fixBugs, 200)
         }
-
         window.addEventListener('resize', resize)
         fixBugs()
     }

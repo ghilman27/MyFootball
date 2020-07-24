@@ -1,3 +1,7 @@
+/* 
+   JAVASCRIPT FILE DEDICATED TO HANDLE DATA TRANSACTION TO DATABASE
+*/
+
 import idb from './idb.js';
 
 const CURRENT_VERSION = 1;
@@ -11,7 +15,6 @@ const DB = {
 		})
 	},
 	saveFavouriteTeam: (team) => {
-		console.log('DB.saveFavouriteTeam fires!')
 		idb.open('myfootball', CURRENT_VERSION)
 			.then((db) => {
 				const tx = db.transaction('teams', 'readwrite');
@@ -20,11 +23,10 @@ const DB = {
 				return tx.complete;
 			})
 			.then(() => {
-				console.log('Team is saved as favorite');
+				// console.log('Team is saved as favorite');
 			});
 	},
 	removeFavouriteTeam: (id) => {
-		console.log('DB.removeFavouriteTeam fires!')
 		idb.open('myfootball', CURRENT_VERSION)
 			.then((db) => {
 				const tx = db.transaction('teams', 'readwrite');
@@ -33,11 +35,10 @@ const DB = {
 				return tx.complete;
 			})
 			.then(() => {
-				console.log('Team is deleted from favorites');
+				// console.log('Team is deleted from favorites');
 			});
 	},
 	getAllFavouriteTeams: () => {
-		console.log('DB.getAllFavouriteTeams fires!')
 		return new Promise((resolve, reject) => {
 			idb.open('myfootball', CURRENT_VERSION)
 				.then((db) => {
@@ -51,7 +52,6 @@ const DB = {
 		});
 	},
 	getFavouriteTeam: (id) => {
-		console.log('DB.getFavouriteTeam fires!')
 		return new Promise(function (resolve, reject) {
 			idb.open('myfootball', CURRENT_VERSION)
 				.then((db) => {
