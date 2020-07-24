@@ -14,4 +14,4 @@ export const API_HEADERS = {
     }
 }
 
-export const API_BASE_URL = "http://api.football-data.org/v2";
+export const API_BASE_URL = "https://api.football-data.org/v2";
