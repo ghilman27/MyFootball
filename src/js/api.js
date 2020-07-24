@@ -193,7 +193,7 @@ class API {
     }
 
     /* HELPER FUNCTION TO PROCESS DATA OF MATCHES SCHEDULE SO IT CAN BE RENDERED IN DetailPage COMPONENT*/
-    static processDetailsData (teams, matches, teamId) {
+    static processDetailsData (team, matches, teamId) {
         matches.forEach((match) => {
             match.isFinished = match.status === 'FINISHED' ? true : false
             match.isOnGoing  = match.status === 'IN_PLAY' || match.status ==='PAUSED' ? true : false
@@ -206,10 +206,8 @@ class API {
             match.isLose = (match.isHome && match.score.winner === "AWAY_TEAM") || (match.isAway && match.score.winner === "HOME_TEAM");
             match.isDraw = match.score.winner === "DRAW"
         })
-        teams.forEach((team) => {
-            team.crestUrl = replaceUrl(tema.crestUrl)
-        })
-        return {...teams, matches}
+        team.crestUrl = replaceUrl(team.crestUrl)
+        return {...team, matches}
     }
 }
 
