@@ -8,13 +8,13 @@ class LeagueSelector extends HTMLElement {
     }
 
     connectedCallback() {
-        this.render()
+        this.render();
     }
 
     render() {
         const stylesheet = document.createElement("style");
         stylesheet.innerHTML = generateStyleSheet();
-        this.appendChild(stylesheet)
+        this.appendChild(stylesheet);
         this.innerHTML += generateTemplate(LEAGUE_ID_LIST);
         
         const select = document.querySelector('select');

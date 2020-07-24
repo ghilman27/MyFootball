@@ -2,7 +2,6 @@ import generateTemplate from './TeamList.module.html';
 import generateLoading from '../loading.module.html';
 import generateStyleSheet from './TeamList.module.css';
 import { loadPage } from '../../js/nav.js';
-import DB from '../../js/db.js';
 
 class TeamList extends HTMLElement {
     constructor() {

@@ -2,7 +2,7 @@
    JAVASCRIPT FILE DEDICATED TO STORE FUNCTIONS THAT ACT AS HELPER
 */
 
-const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const oneDay = 1000 * 60 * 60  * 24;
 const today = new Date();
@@ -20,13 +20,13 @@ export const replaceUrl = (url) => {
 // Helper to format date depending on modifier argument
 export const dateFormatter = (dateObject, modifier='default') => {
     if (modifier === 'default') {
-        if (dateObject.toLocaleDateString() === today.toLocaleDateString()) return 'Today'
-        else if (dateObject.toLocaleDateString() === tomorrow.toLocaleDateString()) return 'Tomorrow'
-        else if (dateObject.toLocaleDateString() === yesterday.toLocaleDateString()) return 'Yesterday'
-        else return `${day[dateObject.getDay()]}, ${dateObject.getDate()} ${month[dateObject.getMonth()]}`
+        if (dateObject.toLocaleDateString() === today.toLocaleDateString()) return 'Today';
+        else if (dateObject.toLocaleDateString() === tomorrow.toLocaleDateString()) return 'Tomorrow';
+        else if (dateObject.toLocaleDateString() === yesterday.toLocaleDateString()) return 'Yesterday';
+        else return `${day[dateObject.getDay()]}, ${dateObject.getDate()} ${month[dateObject.getMonth()]}`;
     }
     else if (modifier === 'dateId') {
-        return `${dateObject.getFullYear()}${pad(dateObject.getMonth()+1)}${pad(dateObject.getDate())}`
+        return `${dateObject.getFullYear()}${pad(dateObject.getMonth()+1)}${pad(dateObject.getDate())}`;
     }
     else {
         let dateFrom, dateTo;
@@ -39,9 +39,9 @@ export const dateFormatter = (dateObject, modifier='default') => {
             dateTo = new Date(today.getTime() + 14*oneDay);
         }
 
-        const dateFromString = `${dateFrom.getFullYear()}-${pad(dateFrom.getMonth()+1)}-${pad(dateFrom.getDate())}`
-        const dateToString = `${dateTo.getFullYear()}-${pad(dateTo.getMonth()+1)}-${pad(dateTo.getDate())}`
-        return `dateFrom=${dateFromString}&dateTo=${dateToString}`
+        const dateFromString = `${dateFrom.getFullYear()}-${pad(dateFrom.getMonth()+1)}-${pad(dateFrom.getDate())}`;
+        const dateToString = `${dateTo.getFullYear()}-${pad(dateTo.getMonth()+1)}-${pad(dateTo.getDate())}`;
+        return `dateFrom=${dateFromString}&dateTo=${dateToString}`;
     }
 
 }

@@ -20,9 +20,10 @@ const loadNav = () => {
 			});
 
 			// Remove unused elements (hidden elements) on both top and side navigation
-			document.querySelectorAll('.topnav .hide-on-large-only, .sidenav .hide-on-med-and-down').forEach((elm) => {
-				elm.remove();
-			})
+			document.querySelectorAll('.topnav .hide-on-large-only, .sidenav .hide-on-med-and-down')
+				.forEach((elm) => {
+					elm.remove();
+				})
 
 			// Activate Sidebar Navigation
 			const sidenavs = document.querySelectorAll('.sidenav');
@@ -51,7 +52,7 @@ const loadNav = () => {
 									<img src=${team.crestUrl} style="width: 24px; height: 24px; margin-right:32px;">${team.name}
 								</a>
 							</li>
-						`
+						`;
 					})
 					favTeams.querySelectorAll('a').forEach((btn) => {
 						btn.addEventListener('click', () => {
@@ -144,8 +145,8 @@ const getPage = (page) => {
 			API.getDetails();
 			break;
 		default:
-			console.log(`This component hasn't implemented api.js`)
+			console.log(`This component hasn't implemented api.js`);
 	}
 }
 
-export { loadNav, loadPage, highlightNav }
+export { loadNav, loadPage, highlightNav };
