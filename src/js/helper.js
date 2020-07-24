@@ -13,6 +13,10 @@ const pad = (n) => {
     return n<10 ? '0'+n : n;
 }
 
+export const replaceUrl = (url) => {
+	if (url) return url.replace(/^http:\/\//i, 'https://');
+}
+
 // Helper to format date depending on modifier argument
 export const dateFormatter = (dateObject, modifier='default') => {
     if (modifier === 'default') {

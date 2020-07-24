@@ -4,7 +4,7 @@
 */
 
 import { API_HEADERS, API_BASE_URL, LEAGUE_ID_LIST } from './appconst.js';
-import { dateFormatter, timeFormatter } from './helper.js';
+import { dateFormatter, timeFormatter, replaceUrl } from './helper.js';
 import DB from './db.js';
 
 class API {
@@ -62,6 +62,9 @@ class API {
         const renderStandingTable = (data) => {
             const { standings: [standingsTotal, ...theRest] } = data;
             const { table } = standingsTotal;
+            table.forEach((row) => {
+                row.team.crestUrl = replaceUrl(row.team.crestUrl)
+            })
             standingTable.render(table);
         }
         API.activateLeagueSelector('standings', standingTable, renderStandingTable);
@@ -77,6 +80,9 @@ class API {
 
         const renderTeamList = (data) => {
             const { teams } = data;
+            teams.forEach((team) => {
+                team.crestUrl = replaceUrl(team.crestUrl);
+            })
             teamList.render(teams);
         }
 
@@ -172,7 +178,7 @@ class API {
             }
             const leagueDetail = {
                 name: match.competition.name, 
-                flagUrl: match.competition.area.ensignUrl,
+                flagUrl: replaceUrl(match.competition.area.ensignUrl),
                 matches: {},
             }
             const dateDetail = {
@@ -187,7 +193,7 @@ class API {
     }
 
     /* HELPER FUNCTION TO PROCESS DATA OF MATCHES SCHEDULE SO IT CAN BE RENDERED IN DetailPage COMPONENT*/
-    static processDetailsData (team, matches, teamId) {
+    static processDetailsData (teams, matches, teamId) {
         matches.forEach((match) => {
             match.isFinished = match.status === 'FINISHED' ? true : false
             match.isOnGoing  = match.status === 'IN_PLAY' || match.status ==='PAUSED' ? true : false
@@ -200,7 +206,10 @@ class API {
             match.isLose = (match.isHome && match.score.winner === "AWAY_TEAM") || (match.isAway && match.score.winner === "HOME_TEAM");
             match.isDraw = match.score.winner === "DRAW"
         })
-        return {...team, matches}
+        teams.forEach((team) => {
+            team.crestUrl = replaceUrl(tema.crestUrl)
+        })
+        return {...teams, matches}
     }
 }
 
