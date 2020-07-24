@@ -1,0 +1,53 @@
+<div class="row">
+	<div class="col s12">
+		<ul class="tabs">
+            {{#each data}}
+            <li class="tab"><a href="#{{@key}}">{{date}}</a></li>
+            {{/each}}
+		</ul>
+	</div>
+
+    {{#each data}}
+	<div id="{{@key}}">
+		<ul class="collapsible">
+            {{#each leagues}}
+			<li>
+				<div class="collapsible-header valign-wrapper">
+                    <img src="{{flagUrl}}" alt="flag" class="flag">{{name}}
+                    <i class="material-icons" style="position: absolute; right: 0">arrow_drop_down</i>
+                </div>
+
+				<div class="collapsible-body row" style="margin-bottom: 0;">
+                    {{#each matches}}
+
+                    <div class="col s12 valign-wrapper" style="padding: 0.75rem 0; padding-bottom: 0">
+                        <div class="col s4 right-align team-name {{#if isHomeWin}}winner{{/if}}">{{homeTeam}}</div>
+
+                        {{#if isUpcoming}}
+                        <div class="col s3 center-align"><span class="match-time">{{time}}</span></div>
+                        {{else}}
+                        <div class="col s3 center-align" style="padding: 0;">
+                            <span class="match-score {{#if isFinished}}finished{{/if}} {{#if isOnGoing}}ongoing{{/if}}">{{homeScore}}</span>
+                            <span class="match-score {{#if isFinished}}finished{{/if}} {{#if isOnGoing}}ongoing{{/if}}">{{awayScore}}</span>
+                        </div>
+                        {{/if}}
+
+                        <div class="col s4 left-align team-name {{#if isAwayWin}}winner{{/if}}">{{awayTeam}}</div>
+                    </div>
+
+                    <div class="col s12 valign-wrapper" style="padding-bottom: 0.75rem">
+                        <div class="col s4 right-align"></div>
+                        <div class="col s3 center-align" style="font-weight: 600; padding: 0">
+                            <span>{{#if isFinished}}FT{{/if}}{{#if isOnGoing}}Playing{{/if}}</span>
+                        </div>
+                        <div class="col s4 left-align"></div>
+                    </div>
+
+                    {{/each}}
+                </div>
+            </li>
+            {{/each}}
+		</ul>
+    </div>
+    {{/each}}
+</div>

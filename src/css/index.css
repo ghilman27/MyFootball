@@ -1,0 +1,95 @@
+/* materialize icons */
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+}
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
+/* general class */
+.app-logo {
+    height: 100%
+}
+.app-color {
+    background-color: #dd403f!important;
+}
+.app-color-text {
+    color: #dd403f!important;
+}
+
+/* style for navigation */
+#profile-picture.circle {
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+}
+.sidenav li>a {
+    padding: 0 16px!important;
+}
+nav .collapsible-header {
+    justify-content: space-between;
+    font-weight: 500;
+    color: rgba(0,0,0,0.54);
+    height: 48px!important;
+}
+nav .dropdown-content {
+    min-width: 150px!important;
+    max-height: 350px!important;
+    overflow-y: auto!important;
+    backface-visibility: hidden!important;
+}
+nav .dropdown-content li>a, nav .dropdown-content li>span {
+    color: rgba(0,0,0,0.87)!important;
+    font-size: 1rem!important;
+}
+
+
+/* highlight the nav button on current page */
+.topnav .active {
+    background-color: #c63939;
+    color: yellow;
+}
+.sidenav .active {
+    background-color: #e0e0e0;
+}
+
+#profile-button.active {
+    background-color: #e0e0e0;
+}
+
+#body-content {
+    margin: 0 auto;
+    margin-top: 12px;
+}
+
+/* styling custom element */
+matches-list, league-selector, standing-table, team-list, detail-page {
+    display: block;
+}
+
+.profile-page-photo {
+    width: 72px!important; 
+    height: 72px!important; 
+    border-radius: 50%!important; 
+    position: absolute!important; 
+    top: 0!important; 
+    bottom: 0!important;
+    left: 0!important;
+    right: 0!important;
+    margin: auto auto!important;
+}

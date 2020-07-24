@@ -1,0 +1,22 @@
+{
+    "name": "MyFootball",
+    "short_name": "MyFootball",
+    "description": "Application for football geeks",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#dd403f",
+    "theme_color": "#dd403f",
+    "gcm_sender_id": "963457113337",
+    "icons": [
+        {
+            "src": "./images/icon512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "./images/icon192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ]
+}

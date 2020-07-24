@@ -1,0 +1,16 @@
+team-list .small-team-image {
+    display: block; height: 60px; width: 60px;
+}
+
+team-list .card-title {
+    font-weight: 600; margin-bottom: 1rem;
+}
+
+team-list .card-desc {
+    padding: 0!important; 
+    margin: 0!important;
+}
+
+team-list .detail-link {
+    padding: 0 0.75rem;
+}

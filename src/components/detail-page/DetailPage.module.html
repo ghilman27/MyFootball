@@ -1,0 +1,110 @@
+<div class="row" style="padding-top: 1rem">
+    <div id="team-section" class="row" style="box-shadow:none!important;">
+        <!-- Top Image -->
+        <div class="card-image col s12 center">
+            <img class="team-image" alt="Team Image" src="{{crestUrl}}" onerror="this.src='./images/no-image-holder.png';" style="height: 200px; width: 200px;">
+        </div>
+
+        <!-- Team name and Favorite Button -->
+        <div class="row" style="margin-bottom: 0;">
+            <div class="col s9">
+                <h5 class="card-title truncate">{{name}}</h5>
+            </div>
+            <div class="col s3 right-align" style="padding:8px;">
+                <a id="favorite-button" class="btn-floating waves-effect waves-light teal lighten-2"></a>
+            </div>
+        </div>
+
+        <!-- Additional Information -->
+        <div class="truncate" style="padding: 0 0.75rem;">
+            <i class="material-icons left">location_on</i>{{address}}, {{area.name}}
+        </div>
+        <div class="truncate" style="margin-bottom: 1rem; padding: 0 0.75rem;">
+            <i class="material-icons left">home</i>{{venue}}
+        </div>
+        <div style="margin-bottom: 2rem; padding: 0 0.75rem;">
+            <a class="waves-effect waves-light btn" href="{{website}}" target="_blank">Website</a>
+            <a class="waves-effect waves-light btn" href="mailto: {{email}}" target="_blank"><i class="material-icons left" style="margin-right: 0.5rem">email</i>Email</a>
+            <a class="waves-effect waves-light btn" href="tel:{{phone}}" target="_blank"><i class="material-icons left" style="margin-right: 0.5rem">phone</i>Call</a>
+        </div>
+
+        <div class="col s12 divider"></div>
+
+        <!-- Tabs Selector -->
+        <div class="col s12">
+            <ul class="tabs">
+                <li class="tab"><a href="#overview-section">Overview</a></li>
+                <li class="tab"><a href="#players-section">Players</a></li>
+                <li class="tab"><a href="#matches-section">Matches</a></li>
+            </ul>
+        </div>
+
+        <!-- Overview Section Tab -->
+        <div id="overview-section" class="col s12 tabs-info">
+            {{name}}, founded in {{founded}}, is a great team from {{area.name}} with their home stadium, {{venue}}.<br/><br/>
+            They are currently competing in:
+            <ul>
+                {{#each activeCompetitions}}
+                <li>{{name}}</li>
+                {{/each}}
+            </ul>
+        </div>
+
+        <!-- Player Section Tab -->
+        <div id="players-section" class="col s12 tabs-info">
+            {{#each squad}}
+            <div class="col s12 m6 valign-wrapper">
+                <div class="shirt-info">
+                    <img class="shirt-img" src="./images/shirt.svg" alt="flag">
+                    <span class="shirt-number">{{shirtNumber}}</span>
+                </div>
+                <div class="col s12">
+                    <span class="col s12 player-name">{{name}}</span>
+                    <span class="col s12 player-desc">
+                        <span class="role" style="display: inline-block;">{{#if position}}{{position}}{{else}}{{role}}{{/if}} /</span>
+                        <span>{{nationality}}</span>
+                    </span>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+        <!-- Matches Section Tab -->
+        <div id="matches-section" class="col s12 tabs-info">
+            {{#each matches}}
+            <div class="col s12 l10 push-l1 padding-0">
+                <div class="col s12 valign-wrapper match-info">
+                    <div class="col s4 m5 left-align padding-0"><div class="match-date truncate">{{date}}</div></div>
+                    <div class="col s3 m2 center-align match-status padding-0">
+                        {{#if isOnGoing}}Playing{{/if}}
+                        {{#if isUpcoming}}Upcoming{{/if}}
+                        {{#if isFinished}}
+                            {{#if isWin}}Win{{/if}}
+                            {{#if isLose}}Lose{{/if}}
+                            {{#if isDraw}}Draw{{/if}}
+                        {{/if}}
+                    </div>
+                    <div class="col s4 m5 right-align padding-0"><div class="match-comp-name truncate">{{competition.name}}</div></div>
+                </div>
+                <div class="col s12 valign-wrapper match-result">
+                    <div class="col s4 m5 right-align team-name {{#if isHome}}current-team{{/if}}">{{homeTeam.name}}</div>
+                    {{#if isUpcoming}}
+                    <div class="col s3 m2 center-align padding-0"><span class="match-time">{{time}}</span></div>
+                    {{else}}
+                    <div class="col s3 m2 center-align white-text padding-0">
+                        <span class="match-score {{#if isFinished}} {{#if isWin}}win{{/if}} {{#if isLose}}lose{{/if}} {{/if}} {{#if isOnGoing}}ongoing{{/if}}">
+                            {{score.fullTime.homeTeam}}
+                        </span>
+                        <span class="match-score {{#if isFinished}} {{#if isWin}}win{{/if}} {{#if isLose}}lose{{/if}} {{/if}} {{#if isOnGoing}}ongoing{{/if}}">
+                            {{score.fullTime.awayTeam}}
+                        </span>
+                    </div>
+                    {{/if}}
+                    <div class="col s4 m5 left-align team-name {{#if isAway}}current-team{{/if}}">{{awayTeam.name}}</div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+    </div>
+</div>
