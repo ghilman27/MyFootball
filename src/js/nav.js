@@ -79,6 +79,8 @@ const loadNav = () => {
 						});
 					}
 				});
+			
+			highlightNav();
 		}
 	};
 	xhttp.open('GET', './pages/nav.html', true);
@@ -112,6 +114,7 @@ const loadPage = (page) => {
 // Function to highlight selected navigation button
 const highlightNav = () => {
 	let navSection = window.location.hash.substr(1).split('?')[0];
+	navSection = !navSection ? 'matches' : navSection;
 	navSection = navSection === 'detail' ? 'teams' : navSection;
 
 	const navButtons = document.querySelectorAll('.nav-button');
@@ -145,4 +148,4 @@ const getPage = (page) => {
 	}
 }
 
-export { loadNav, loadPage }
+export { loadNav, loadPage, highlightNav }
