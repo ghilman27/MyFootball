@@ -18,6 +18,7 @@ const urlsToCache = [
 	'/images/account-background.jpg',
 	'/images/account-background-dark.jpg',
 	'/images/app-logo.webp',
+	'/images/apple-touch-icon-180x180.png',
 	'/images/favicon.ico',
 	'/images/icon192.png',
 	'/images/icon512.png',
