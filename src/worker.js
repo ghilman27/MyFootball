@@ -2,7 +2,7 @@ import 'regenerator-runtime';
 import { API_BASE_URL } from './js/appconst.js';
 
 const CACHE_NAME = 'MyFootball_build_v1.0';
-var urlsToCache = [
+const urlsToCache = [
 	'/',
 	'/index.html',
 	'/index.js',
