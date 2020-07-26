@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
+const workboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -41,6 +42,11 @@ module.exports = {
                 {from: "./src/pages", to: "pages"},
                 {from: "./src/manifest.json", to: "./manifest.json"},
             ]
+        }),
+        new workboxPlugin.GenerateSW({
+            swDest: 'worker.js',
+            clientsClaim: true,
+            skipWaiting: true,
         }),
     ]
 }
