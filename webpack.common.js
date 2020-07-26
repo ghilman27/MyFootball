@@ -1,6 +1,8 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
+const dist = 'dist',
+const cleanPlugin = require('clean-webpack-plugin');
 const workboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
@@ -32,6 +34,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new cleanPlugin([dist]),
         new HtmlWebpackPlugin ({
             template: "./src/index.html",
             filename: "index.html"
