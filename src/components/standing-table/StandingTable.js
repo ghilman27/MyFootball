@@ -1,6 +1,7 @@
 import generateTemplate from './StandingTable.module.html';
 import generateLoading from '../loading.module.html';
 import generateStyleSheet from './StandingTable.module.css';
+import generatePageNotAvailable from '../notavailable.module.html';
 import { loadPage } from '../../js/nav.js';
 
 class StandingTable extends HTMLElement {
@@ -11,6 +12,10 @@ class StandingTable extends HTMLElement {
     renderLoading() {
         this.innerHTML = generateLoading();
     }
+
+    renderPageNotAvailable() {
+		this.innerHTML = generatePageNotAvailable();
+	}
 
     render(data) {
         // generate stylesheet and html template

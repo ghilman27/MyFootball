@@ -1,6 +1,7 @@
 import generateTemplate from './DetailPage.module.html';
 import generateLoading from '../loading.module.html';
 import generateStyleSheet from './DetailPage.module.css';
+import generatePageNotAvailable from '../notavailable.module.html';
 import DB from '../../js/db.js';
 import { loadNav } from '../../js/nav.js';
 
@@ -10,7 +11,15 @@ class DetailPage extends HTMLElement {
 	}
 
 	connectedCallback() {
+		this.renderLoading();
+	}
+
+	renderLoading() {
 		this.innerHTML = generateLoading();
+	}
+
+	renderPageNotAvailable() {
+		this.innerHTML = generatePageNotAvailable();
 	}
 
 	render(data) {
