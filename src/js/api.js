@@ -88,7 +88,11 @@ class API {
 
 		if (page === 'profile') {
 			// display all saved teams in the profile page
-			DB.getAllFavouriteTeams().then((data) => teamList.render(data));
+			DB.getAllFavouriteTeams().then((data) => {
+				data.length !== 0
+				? teamList.render(data)
+				: teamList.renderNoFavTeamsAvailable()
+			});
 			teamList.renderLoading();
 		}
 	}

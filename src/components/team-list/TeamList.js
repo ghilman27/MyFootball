@@ -27,6 +27,12 @@ class TeamList extends HTMLElement {
             })
         })
     }
+
+    renderNoFavTeamsAvailable() {
+        this.innerHTML = `
+            <h6 class="center-align" style="font-style: italic">No teams added to favorites</h6>
+        `;
+    }
 }
 
 customElements.define("team-list", TeamList);
