@@ -10,7 +10,7 @@ import DB from './db.js';
 class API {
 	/* FUNCTION TO HANDLE CACHE REQUEST */
 	static getFromCache(path) {
-		return new Promise((resolve) => {
+		return new Promise((resolve, reject) => {
 			if ('caches' in window) {
 				caches.match(path).then((response) => {
 					if (response) {
@@ -19,11 +19,12 @@ class API {
 							// console.log('Data is loaded from cache')
 						});
 					} else {
-						// console.log('No caches found');
+						reject('No caches found');
+
 					}
 				});
 			} else {
-				console.log('Cache is not supported by the browser');
+				reject('Cache is not supported by the browser');
 			}
 		});
 	}
@@ -36,19 +37,24 @@ class API {
 			// console.log('Data is loaded from API');
 			return data;
 		} catch (error) {
-			console.log(error);
+			throw new Error(error);
 		}
 	}
 
 	/* FUNCTION TO HANDLE DATA TO RENDER MatchesList COMPONENT in matches.html*/
 	static getMatches() {
 		const url = `${API_BASE_URL}/matches/?competitions=${Object.keys(LEAGUE_ID_LIST).join()}&${dateFormatter(new Date(), 'matchesListAPI')}`;
+		const matchesList = document.querySelector('matches-list');
 		const renderMatches = (data) => {
 			const { matches } = data;
 			const processedData = this.processMatchesData(matches);
-			document.querySelector('matches-list').render(processedData);
+			matchesList.render(processedData);
 		};
-		API.getFromCache(url).then(renderMatches);
+		API.getFromCache(url)
+			.then(renderMatches)
+			.catch(() => {
+				!window.navigator.onLine ? matchesList.renderPageNotAvailable() : ''
+			});
 		API.getFromAPI(url).then(renderMatches);
 	}
 
@@ -88,7 +94,11 @@ class API {
 
 		if (page === 'profile') {
 			// display all saved teams in the profile page
-			DB.getAllFavouriteTeams().then((data) => teamList.render(data));
+			DB.getAllFavouriteTeams().then((data) => {
+				data.length !== 0
+				? teamList.render(data)
+				: teamList.renderNoFavTeamsAvailable()
+			});
 			teamList.renderLoading();
 		}
 	}
@@ -96,7 +106,6 @@ class API {
 	/* FUNCTION TO HANDLE DATA TO RENDER DetailPage COMPONENT in detail.html*/
 	static getDetails() {
 		// set all constant needed
-		let team;
 		const detailPage = document.querySelector('detail-page');
 		const windowUrl = new URL(
 			`${window.location.origin}/${window.location.hash.substr(1)}`
@@ -105,33 +114,29 @@ class API {
 		const urlTeam = `${API_BASE_URL}/teams/${teamId}`;
 		const urlMatches = `${API_BASE_URL}/teams/${teamId}/matches?${dateFormatter(new Date(), 'detailPageAPI')}`;
 
+		const cacheRequests = [API.getFromCache(urlTeam), API.getFromCache(urlMatches)];
+		const apiRequests = [API.getFromAPI(urlTeam), API.getFromAPI(urlMatches)];
+		const handleRender = (data) => {
+			const [team, otherData] = data;
+			const {matches} = otherData;
+			const processedData = this.processDetailsData(team, matches, teamId);
+			detailPage.render(processedData);
+		}
+
 		// load then render from DB if it's a favorite team (to prevent cache expiration if offline as well)
 		DB.getFavouriteTeam(teamId).then((data) => {
 			if (data) detailPage.render(data);
 		});
 
 		// load also from cache and internet asynchronously then render
-		API.getFromCache(urlTeam)
-			.then((teamData) => {
-				team = teamData;
-				return API.getFromCache(urlMatches);
+		Promise.all(cacheRequests)
+			.then(handleRender)
+			.catch(() => {
+				!window.navigator.onLine ? detailPage.renderPageNotAvailable() : ''
 			})
-			.then((matchesData) => {
-				const { matches } = matchesData;
-				const processedData = this.processDetailsData(team, matches, teamId);
-				detailPage.render(processedData);
-			});
 
-		API.getFromAPI(urlTeam)
-			.then((teamData) => {
-				team = teamData;
-				return API.getFromAPI(urlMatches);
-			})
-			.then((matchesData) => {
-				const { matches } = matchesData;
-				const processedData = this.processDetailsData(team, matches, teamId);
-				detailPage.render(processedData);
-			});
+		Promise.all(apiRequests)
+			.then(handleRender)
 	}
 
 	/* HELPER FUNCTION TO ACTIVATE LeagueSelector
@@ -145,7 +150,11 @@ class API {
 		leagueSelector.addEventListener('change', (event) => {
 			const compId = event.target.value;
 			const url = `${API_BASE_URL}/competitions/${compId}/${resourceName}`;
-			API.getFromCache(url).then(renderOnSelect);
+			API.getFromCache(url)
+				.then(renderOnSelect)
+				.catch(() => {
+					!window.navigator.onLine ? component.renderPageNotAvailable() : ''
+				});
 			API.getFromAPI(url).then(renderOnSelect);
 			component.renderLoading();
 		});

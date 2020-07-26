@@ -1,11 +1,12 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const path = require("path");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const workboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
     entry: {
         index: "./src/index.js",
-        worker: "./src/worker.js",
     },
     output: {
         path: path.resolve(__dirname, "dist"),
@@ -31,6 +32,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin ({
             template: "./src/index.html",
             filename: "index.html"
@@ -41,6 +43,10 @@ module.exports = {
                 {from: "./src/pages", to: "pages"},
                 {from: "./src/manifest.json", to: "./manifest.json"},
             ]
+        }),
+        new workboxPlugin.InjectManifest({
+            swSrc: "./src/worker.js",
+            swDest: "worker.js",
         }),
     ]
 }

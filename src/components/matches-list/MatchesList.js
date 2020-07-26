@@ -1,6 +1,7 @@
 import generateTemplate from './MatchesList.module.html';
 import generateLoading from '../loading.module.html';
 import generateStyleSheet from './MatchesList.module.css';
+import generatePageNotAvailable from '../notavailable.module.html';
 import { dateFormatter } from '../../js/helper.js';
 import '../../js/clamp.min.js';
 
@@ -12,12 +13,15 @@ class MatchesList extends HTMLElement {
 	}
 
 	connectedCallback() {
-		// render loading when first connected to the dom
 		this.renderLoading();
 	}
 
 	renderLoading() {
 		this.innerHTML = generateLoading();
+	}
+
+	renderPageNotAvailable() {
+		this.innerHTML = generatePageNotAvailable();
 	}
 
 	render(data) {

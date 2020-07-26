@@ -1,78 +1,43 @@
 import 'regenerator-runtime';
-import { API_BASE_URL } from './js/appconst.js';
+import { skipWaiting, clientsClaim } from 'workbox-core';
+import { precacheAndRoute } from 'workbox-precaching';
+import { registerRoute } from 'workbox-routing';
+import { StaleWhileRevalidate, CacheFirst } from 'workbox-strategies';
+import { CacheableResponsePlugin } from 'workbox-cacheable-response';
+import { ExpirationPlugin } from 'workbox-expiration';
 
-const CACHE_NAME = 'MyFootball_build_v1.0';
-var urlsToCache = [
-	'/',
-	'/index.html',
-	'/index.js',
-	'/manifest.json',
+skipWaiting();
+clientsClaim();
 
-	'/pages/detail.html',
-	'/pages/matches.html',
-	'/pages/nav.html',
-	'/pages/profile.html',
-	'/pages/standings.html',
-	'/pages/teams.html',
+registerRoute(
+	({ url }) => url.origin === 'https://api.football-data.org',
+	new StaleWhileRevalidate({
+		cacheName: 'football-content',
+	})
+);
 
-	'/images/account-background.jpg',
-	'/images/account-background-dark.jpg',
-	'/images/app-logo.webp',
-	'/images/favicon.ico',
-	'/images/icon192.png',
-	'/images/icon512.png',
-	'/images/no-image-holder.png',
-	'/images/profile-holder.webp',
-	'/images/shirt.svg',
+registerRoute(
+	({ url }) => url.origin === 'https://fonts.googleapis.com',
+	new StaleWhileRevalidate({
+		cacheName: 'google-fonts-stylesheets',
+	})
+);
 
-	'https://fonts.googleapis.com/icon?family=Material+Icons',
-	'https://fonts.gstatic.com/s/materialicons/v53/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2',
-];
-
-self.addEventListener('install', function (event) {
-	event.waitUntil(
-		caches.open(CACHE_NAME).then(function (cache) {
-			return cache.addAll(urlsToCache);
-		})
-	);
-});
-
-self.addEventListener('fetch', (event) => {
-	if (event.request.url.indexOf(API_BASE_URL) > -1) {
-		event.respondWith(
-			caches.open(CACHE_NAME).then(async (cache) => {
-				const response = await fetch(event.request);
-				cache.put(event.request.url, response.clone());
-				return response;
-			})
-		);
-	} else {
-		event.respondWith(
-			caches.match(event.request, { ignoreSearch: true })
-				.then(function (response) {
-					return response || fetch(event.request);
-				})
-		);
-	}
-});
-
-self.addEventListener('activate', function (event) {
-	event.waitUntil(
-		caches
-			.keys()
-			.then(function (cacheNames) {
-				return Promise.all(
-					cacheNames.map(function (cacheName) {
-						if (cacheName != CACHE_NAME) {
-							console.log('ServiceWorker: cache ' + cacheName + ' dihapus');
-							return caches.delete(cacheName);
-						}
-					})
-				);
-			})
-			.then(() => self.clients.claim())
-	);
-});
+registerRoute(
+	({ url }) => url.origin === 'https://fonts.gstatic.com',
+	new CacheFirst({
+		cacheName: 'google-fonts-webfonts',
+		plugins: [
+			new CacheableResponsePlugin({
+				statuses: [0, 200],
+			}),
+			new ExpirationPlugin({
+				maxAgeSeconds: 60 * 60 * 24 * 365,
+				maxEntries: 30,
+			}),
+		],
+	})
+);
 
 self.addEventListener('push', function (event) {
 	let body;
@@ -95,3 +60,5 @@ self.addEventListener('push', function (event) {
 		self.registration.showNotification('Push Notification', options)
 	);
 });
+
+precacheAndRoute(self.__WB_MANIFEST);
